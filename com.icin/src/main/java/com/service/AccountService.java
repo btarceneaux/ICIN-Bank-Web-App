@@ -1,8 +1,11 @@
 package com.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bean.Account;
 import com.bean.CheckingAccount;
 import com.bean.SavingsAccount;
 import com.repository.CheckingAccountRepository;
@@ -43,9 +46,9 @@ public class AccountService
 		return result;
 	}
 	
-	public CheckingAccount getCheckingAccountById(int checkingAccountId)
+	public Optional<Account> getCheckingAccountById(int checkingAccountId)
 	{
-		CheckingAccount tmpCheckingAccount = (CheckingAccount) checkingRepository.getOne(checkingAccountId);
+		Optional<Account> tmpCheckingAccount = checkingRepository.findById(checkingAccountId);
 		return tmpCheckingAccount;
 	}
 	
@@ -75,9 +78,9 @@ public class AccountService
 		return result;
 	}
 	
-	public SavingsAccount getSavingsAccountById(int savingsAccountId)
+	public Optional<Account> getSavingsAccountById(int savingsAccountId)
 	{
-		SavingsAccount tmpSavingsAccount = (SavingsAccount) checkingRepository.getOne(savingsAccountId);
+		Optional<Account> tmpSavingsAccount = savingsRepository.findById(savingsAccountId);
 		return tmpSavingsAccount;
 	}
 	

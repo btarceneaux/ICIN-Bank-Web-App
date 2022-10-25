@@ -5,6 +5,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import com.bean.Account;
 
 @NoRepositoryBean
-public interface AccountRepository extends JpaRepository<Account, Integer>{
+public interface AccountRepository extends JpaRepository<Account, Integer>
+{
 
 }
