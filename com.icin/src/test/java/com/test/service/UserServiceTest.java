@@ -23,20 +23,27 @@ class UserServiceTest
 	@Autowired
 	UserService service;
 	
+//	@Test
+//	@Order(1)
+//	public void createUserTest()
+//	{
+//		User testUser = new User();
+//		testUser.setEmailAddress("test@test.com");
+//		testUser.setFirstName("Test");
+//		testUser.setLastName("User");
+//		testUser.setPassword("testing123");
+//		testUser.setPhoneNumber("1111111111");
+//		
+//		int result = service.registerUser(testUser);
+//		
+//		assertEquals(1, result);
+//	}
+	
 	@Test
 	@Order(1)
-	public void createUserTest()
+	public void loginTest()
 	{
-		User testUser = new User();
-		testUser.setEmailAddress("test@test.com");
-		testUser.setFirstName("Test");
-		testUser.setLastName("User");
-		testUser.setPassword("testing123");
-		testUser.setPhoneNumber("1111111111");
-		testUser.setUsername("test.user@test.com");
-		
-		int result = service.registerUser(testUser);
-		
+		int result = service.loginUser("sarah.mcniel@yahoo.com", "123456");
 		assertEquals(1, result);
 	}
 	
@@ -48,21 +55,22 @@ class UserServiceTest
 		assertEquals(1, allUsers.size());
 	}
 	
-	@Test
-	@Order(3)
-	public void deleteUserTest()
-	{
-		User testUser = new User();
-		testUser.setEmailAddress("test@test.com");
-		testUser.setFirstName("Test");
-		testUser.setLastName("User");
-		testUser.setPassword("testing123");
-		testUser.setPhoneNumber("1111111111");
-		testUser.setUsername("test.user@test.com");
-		
-		int result = service.deleteUser(testUser);
-		
-		assertEquals(1, result);
-	}
+//	@Test
+//	@Order(3)
+//	public void deleteUserTest()
+//	{
+//		User testUser = new User();
+//		testUser.setEmailAddress("test@test.com");
+//		testUser.setFirstName("Test");
+//		testUser.setLastName("User");
+//		testUser.setPassword("testing123");
+//		testUser.setPhoneNumber("1111111111");
+//		
+//		int result = service.deleteUser(testUser);
+//		
+//		assertEquals(1, result);
+//	}
+	
+	
 
 }

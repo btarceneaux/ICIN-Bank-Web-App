@@ -32,11 +32,11 @@ public class UserService
 		return result;
 	}
 	
-	public int loginUser(String username, String password)
+	public int loginUser(String emailAddress, String password)
 	{
 		int result = 0;
 		
-		List<User> userList = repository.findByUsernameAndPassword(username, password);
+		List<User> userList = repository.findByEmailAddressAndPassword(emailAddress, password);
 		
 		if(userList.size() > 0)
 		{

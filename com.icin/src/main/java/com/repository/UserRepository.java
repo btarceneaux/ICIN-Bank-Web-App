@@ -9,7 +9,6 @@ import com.bean.User;
 public interface UserRepository extends JpaRepository<User, Integer> 
 {
 	List<User> findByEmailAddress(String emailAddress);
-	List<User> findByUsername(String userName);
 	
-	List<User> findByUsernameAndPassword(String userName, String password);
+	List<User> findByEmailAddressAndPassword(String email, String password);
 }
