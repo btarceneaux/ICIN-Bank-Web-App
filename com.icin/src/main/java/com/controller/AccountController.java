@@ -57,7 +57,6 @@ public class AccountController
 			
 			if(accountCreationResult > 0)
 			{
-				System.out.println("Savings account user is : " + mySavingsAccount.getUser().getFirstName());
 				result = 1;
 			}
 		}
