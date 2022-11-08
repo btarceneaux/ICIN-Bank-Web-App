@@ -32,6 +32,7 @@ public abstract class Account
 	
 	public Account() 
 	{
+		this.balance = 0;
 	}
 
 	public User getUser() 

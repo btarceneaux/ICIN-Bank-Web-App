@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bean.CheckingAccount;
+import com.bean.SavingsAccount;
 import com.bean.User;
 import com.service.UserService;
 
@@ -19,16 +22,23 @@ public class UserController
 	@Autowired
 	UserService service;
 	
+	@Autowired
+	AccountController accountController;
+	
 	
 	@PostMapping(value = "/storeUser", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String registerUser(@RequestBody User myUser)
 	{
 		System.out.println("The user being registered is " + myUser.getFirstName() + " " + myUser.getLastName());
 		//The register user service already checks to see if the user exists.
-		int result = service.registerUser(myUser);
+		User tempUser = service.registerUser(myUser);
 		
-		if(result ==1)
+		if(tempUser != null)
 		{
+			// Now that the user has been registered, create the savings and checking account for the user.
+			accountController.createAccount("checking", tempUser);
+			accountController.createAccount("savings", tempUser);
+			
 			return "successful.";
 		}
 		else
@@ -53,7 +63,7 @@ public class UserController
 		}
 		else
 		{
-			return "unsuccessful";
+			return "Error! Login unsuccessful. Please try again.";
 		}
 	}
 }	

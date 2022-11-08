@@ -18,18 +18,17 @@ public class UserService
 		return repository.findAll();
 	}
 	
-	public int registerUser(User incomingUser)
-	{
-		int result = 0;
-		
+	public User registerUser(User incomingUser)
+	{	
 		//First see if the email address exists.
 		if (repository.findByEmailAddress(incomingUser.getEmailAddress()).size() == 0)
 		{
-			repository.save(incomingUser);
-			result = 1;
+			User tempUser = repository.save(incomingUser);
+			
+			return tempUser;
 		}
 		
-		return result;
+		return null;
 	}
 	
 	public int loginUser(String emailAddress, String password)
