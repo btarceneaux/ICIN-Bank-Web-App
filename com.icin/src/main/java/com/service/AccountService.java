@@ -1,10 +1,8 @@
 package com.service;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.bean.Account;
 import com.bean.CheckingAccount;
 import com.bean.SavingsAccount;
@@ -33,14 +31,14 @@ public class AccountService
 		return result;
 	}
 	
-	public int deleteCheckingAccount(CheckingAccount account)
-	{
+	public int createSavingsAccount(SavingsAccount account)
+	{	
 		int result = 0;
 		
-		if(checkingRepository.existsById(account.getId()))
+		SavingsAccount tmpAccount = savingsRepository.save(account);
+		if(tmpAccount.getId() > 0)
 		{
-			checkingRepository.delete(account);
-			result = 1;
+			result = tmpAccount.getId();
 		}
 		
 		return result;
@@ -52,14 +50,21 @@ public class AccountService
 		return tmpCheckingAccount;
 	}
 	
-	public int createSavingsAccount(SavingsAccount account)
-	{	
+	public Optional<Account> getSavingsAccountById(int savingsAccountId)
+	{
+		Optional<Account> tmpSavingsAccount = savingsRepository.findById(savingsAccountId);
+		return tmpSavingsAccount;
+	}
+	
+		
+	public int deleteCheckingAccount(CheckingAccount account)
+	{
 		int result = 0;
 		
-		SavingsAccount tmpAccount = savingsRepository.save(account);
-		if(tmpAccount.getId() > 0)
+		if(checkingRepository.existsById(account.getId()))
 		{
-			result = tmpAccount.getId();
+			checkingRepository.delete(account);
+			result = 1;
 		}
 		
 		return result;
@@ -78,10 +83,6 @@ public class AccountService
 		return result;
 	}
 	
-	public Optional<Account> getSavingsAccountById(int savingsAccountId)
-	{
-		Optional<Account> tmpSavingsAccount = savingsRepository.findById(savingsAccountId);
-		return tmpSavingsAccount;
-	}
+	
 	
 }

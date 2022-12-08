@@ -1,12 +1,12 @@
 package com.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+//import javax.persistence.CascadeType;
 
 @Entity
 public class User 
@@ -19,15 +19,24 @@ public class User
 	private String phoneNumber;
 	private String emailAddress;
 	private String password;
-	@OneToMany
-	private List<CheckingAccount> myCheckingAccount = new ArrayList<CheckingAccount>();
-	@OneToMany
-	private List<SavingsAccount> mySavingAccount = new ArrayList<SavingsAccount>();;
+	@OneToOne (cascade = CascadeType.ALL)
+	private CheckingAccount myCheckingAccount = new CheckingAccount();
+	@OneToOne (cascade = CascadeType.ALL)
+	private SavingsAccount mySavingAccount = new SavingsAccount();
+	
 	private boolean activated;
 	
 	public User() 
 	{
 		super();
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -70,19 +79,19 @@ public class User
 		this.password = password;
 	}
 
-	public List<CheckingAccount> getMyCheckingAccount() {
+	public CheckingAccount getMyCheckingAccount() {
 		return myCheckingAccount;
 	}
 
-	public void setMyCheckingAccount(List<CheckingAccount> myCheckingAccount) {
+	public void setMyCheckingAccount(CheckingAccount myCheckingAccount) {
 		this.myCheckingAccount = myCheckingAccount;
 	}
 
-	public List<SavingsAccount> getMySavingAccount() {
+	public SavingsAccount getMySavingAccount() {
 		return mySavingAccount;
 	}
 
-	public void setMySavingAccount(List<SavingsAccount> mySavingAccount) {
+	public void setMySavingAccount(SavingsAccount mySavingAccount) {
 		this.mySavingAccount = mySavingAccount;
 	}
 
@@ -93,4 +102,12 @@ public class User
 	public void setActivated(boolean activated) {
 		this.activated = activated;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
+				+ phoneNumber + ", emailAddress=" + emailAddress + ", password=" + password + ", myCheckingAccount="
+				+ myCheckingAccount + ", mySavingAccount=" + mySavingAccount + ", activated=" + activated + "]";
+	}
+
 }

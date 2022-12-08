@@ -14,7 +14,9 @@ import com.Application;
 import com.bean.Account;
 import com.bean.CheckingAccount;
 import com.bean.SavingsAccount;
+import com.bean.User;
 import com.service.AccountService;
+import com.service.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=Application.class)
@@ -24,36 +26,52 @@ class AccountServiceTest
 	@Autowired
 	AccountService service;
 	
+	@Autowired
+	UserService userService;
+	
 	int tmpAccountNumber = 0;
 
+//	@Test
+//	@Order(1)
+//	public void createAndDeleteCheckingAccountTest()
+//	{
+//		CheckingAccount account = new CheckingAccount();
+//		
+//		account.setBalance(1000);
+//		
+//		tmpAccountNumber = service.createCheckingAccount(account);
+//		assertNotEquals(0, tmpAccountNumber);
+//		
+//		int result = service.deleteCheckingAccount(account);
+//		assertEquals(1, result);
+//	}
+//	
+//	@Test
+//	@Order(2)
+//	public void createAndDeleteSavingsAccountTest()
+//	{
+//		
+//		SavingsAccount account = new SavingsAccount();
+//		account.setBalance(1000);
+//		tmpAccountNumber = service.createSavingsAccount(account);
+//				
+//		assertNotEquals(0, account.getId());
+//		
+//		int result = service.deleteSavingsAccount(account);
+//		assertEquals(1, result);
+//	}
 	@Test
-	@Order(1)
-	public void createAndDeleteCheckingAccountTest()
+	public void loginTest()
 	{
-		CheckingAccount account = new CheckingAccount();
-		
-		account.setBalance(1000);
-		
-		tmpAccountNumber = service.createCheckingAccount(account);
-		assertNotEquals(0, tmpAccountNumber);
-		
-		int result = service.deleteCheckingAccount(account);
-		assertEquals(1, result);
+		tmpAccountNumber = userService.loginUser("sarah.mcniel@yahoo.com", "12345");
+		assertEquals(1, tmpAccountNumber);	
 	}
 	
 	@Test
-	@Order(2)
-	public void createAndDeleteSavingsAccountTest()
+	public void getFirstAccountTest()
 	{
-		
-		SavingsAccount account = new SavingsAccount();
-		account.setBalance(1000);
-		tmpAccountNumber = service.createSavingsAccount(account);
-				
-		assertNotEquals(0, account.getId());
-		
-		int result = service.deleteSavingsAccount(account);
-		assertEquals(1, result);
+		User myUser = userService.getUserbyId(1);
+		assertEquals("sarah.mcniel@yahoo.com", myUser.getEmailAddress());
 	}
 
 }

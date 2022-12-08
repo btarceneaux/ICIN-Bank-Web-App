@@ -5,17 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.bean.CheckingAccount;
-import com.bean.SavingsAccount;
 import com.bean.User;
 import com.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200/")
+//@CrossOrigin(origins = "*")
 @RestController
 public class UserController 
 {
@@ -35,9 +34,7 @@ public class UserController
 		
 		if(tempUser != null)
 		{
-			// Now that the user has been registered, create the savings and checking account for the user.
-			accountController.createAccount("checking", tempUser);
-			accountController.createAccount("savings", tempUser);
+			System.out.println(tempUser);
 			
 			return "successful.";
 		}
@@ -45,25 +42,36 @@ public class UserController
 			return "unsuccessful.";
 	}
 	
-	@GetMapping(value = "getUsers")
+	@GetMapping(value = "/getUsers")
 	public List<User> getAllUsers()
 	{
 		List<User> listOfUsers = service.getAllUsers();
 		return listOfUsers;
 	}
 
+	//Now returning the auto generated id of the user.
 	@PostMapping(value = "/loginUser", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String loginUser(@RequestBody User myUser)
+	public int loginUser(@RequestBody User myUser)
 	{
 		int result = service.loginUser(myUser.getEmailAddress(), myUser.getPassword());
 		
-		if(result == 1)
+		return result;
+	}
+	
+	//We need this to get all the details from a user.
+	@GetMapping(value = "/getUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User getUser(@PathVariable("id") String id)
+	{
+		User tempUser = service.getUserbyId(Integer.parseInt(id));
+		System.out.println("Now printing user details");
+		
+		if(tempUser.getEmailAddress().length() > 0)
 		{
-			return "successful";
+			return tempUser;
 		}
 		else
 		{
-			return "Error! Login unsuccessful. Please try again.";
+			return new User();
 		}
 	}
 }	

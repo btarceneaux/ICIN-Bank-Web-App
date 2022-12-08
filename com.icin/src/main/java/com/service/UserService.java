@@ -2,6 +2,8 @@ package com.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bean.User;
@@ -37,12 +39,20 @@ public class UserService
 		
 		List<User> userList = repository.findByEmailAddressAndPassword(emailAddress, password);
 		
+		
+		//Let's return the ID of the user instead
 		if(userList.size() > 0)
 		{
-			result = 1;
+			User myUser = userList.get(0);
+			result = myUser.getUserId();
 		}
 		
 		return result;
+	}
+	
+	public User getUserbyId(int id)
+	{
+		return repository.findById(id).orElseThrow(()-> new EntityNotFoundException("User with id " + id + " was not found!"));
 	}
 	
 	public int deleteUser(User incomingUser)

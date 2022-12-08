@@ -12,9 +12,9 @@ public class CheckingAccount extends Account
 	public CheckingAccount()
 	{
 		super();
-		System.out.println("Checking account created.");
 	}
-
+	
+	
 	public int getCheckNumber() 
 	{
 		return checkNumber;
@@ -24,4 +24,10 @@ public class CheckingAccount extends Account
 	{
 		this.checkNumber = checkNumber;
 	}
+
+	@Override
+	public String toString() {
+		return "CheckingAccount [checkNumber=" + checkNumber + "]";
+	}
+	
 }
