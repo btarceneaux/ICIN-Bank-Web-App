@@ -97,7 +97,7 @@ public class AccountService
 		if(obj.isPresent())
 		{
 			myCheckingAccount = (CheckingAccount) obj.get();
-			System.out.println("Checking account now passed to the account service : " + myCheckingAccount);
+			
 			
 			//Get the current Balance from the object then add in the amount deposited.
 			float currentBalance = myCheckingAccount.getBalance();
@@ -106,9 +106,7 @@ public class AccountService
 			myCheckingAccount.setBalance(newBalance);
 			
 			System.out.println("The balance of the checking account is " + myCheckingAccount.getBalance());
-			
-//			List<Transaction> myTransactions = myCheckingAccount.getMyTransaction();
-			
+					
 			//Record the transaction 
 			Transaction myTransaction = new Transaction();
 			myTransaction.setAccountId(account.getId());
@@ -117,10 +115,7 @@ public class AccountService
 			
 			Date date = new java.sql.Date(System.currentTimeMillis());
 			myTransaction.setTransactionDate(date);
-			
-//			int myTransactionNumber = (myTransactions.size() + 1);
-//			myTransaction.setTransactionNumber(myTransactionNumber);
-			
+
 			myTransaction.setTransactionType("Deposit");
 			
 			myCheckingAccount.getMyTransaction().add(myTransaction);
@@ -153,8 +148,6 @@ public class AccountService
 			
 			System.out.println("The balance of the savings account is " + mySavingsAccount.getBalance());
 			
-//			List<Transaction> myTransactions = mySavingsAccount.getMyTransaction();
-			
 			//Record the transaction 
 			Transaction myTransaction = new Transaction();
 			myTransaction.setAccountId(account.getId());
@@ -164,8 +157,87 @@ public class AccountService
 			Date date = new java.sql.Date(System.currentTimeMillis());
 			myTransaction.setTransactionDate(date);
 			
-//			int myTransactionNumber = (myTransactions.size() + 1);
-//			myTransaction.setTransactionNumber(myTransactionNumber);
+			myTransaction.setTransactionType("Deposit");
+			
+			mySavingsAccount.getMyTransaction().add(myTransaction);
+			
+			//Save to the database
+			savingsRepository.save(mySavingsAccount);
+		}
+		
+		return mySavingsAccount.getBalance();
+	}
+
+	public float withdrawFromChecking(CheckingAccount account) 
+	{
+		
+		//First get the specified checking account.
+		Optional<Account> obj = checkingRepository.findById(account.getId());
+				
+		CheckingAccount myCheckingAccount = new CheckingAccount();
+				
+		//After getting the specified checking account, deposit the money. 
+		if(obj.isPresent())
+		{
+			myCheckingAccount = (CheckingAccount) obj.get();
+			
+			//Get the current Balance from the object then add in the amount deposited.
+			float currentBalance = myCheckingAccount.getBalance();
+			float newBalance = currentBalance - account.getBalance();
+			
+			myCheckingAccount.setBalance(newBalance);
+			
+			System.out.println("The balance of the checking account is " + myCheckingAccount.getBalance());
+					
+			//Record the transaction 
+			Transaction myTransaction = new Transaction();
+			myTransaction.setAccountId(account.getId());
+			myTransaction.setAmount(account.getBalance());
+			myTransaction.setDescription("Deposit");
+					
+			Date date = new java.sql.Date(System.currentTimeMillis());
+			myTransaction.setTransactionDate(date);
+					
+			myTransaction.setTransactionType("Withdrawal");
+			
+			myCheckingAccount.getMyTransaction().add(myTransaction);
+					
+					//Save to the database
+			checkingRepository.save(myCheckingAccount);
+		}
+				
+		return myCheckingAccount.getBalance();
+	}
+
+	public float withdrawFromSavings(SavingsAccount account) 
+	{
+		//First get the specified checking account.
+		Optional<Account> obj = savingsRepository.findById(account.getId());
+		
+		SavingsAccount mySavingsAccount = new SavingsAccount();
+		
+		//After getting the specified checking account, deposit the money. 
+		if(obj.isPresent())
+		{
+			mySavingsAccount = (SavingsAccount) obj.get();
+			System.out.println("Checking account now passed to the account service : " + mySavingsAccount);
+			
+			//Get the current Balance from the object then add in the amount deposited.
+			float currentBalance = mySavingsAccount.getBalance();
+			float newBalance = currentBalance - account.getBalance();
+			
+			mySavingsAccount.setBalance(newBalance);
+			
+			System.out.println("The balance of the savings account is " + mySavingsAccount.getBalance());
+			
+			//Record the transaction 
+			Transaction myTransaction = new Transaction();
+			myTransaction.setAccountId(account.getId());
+			myTransaction.setAmount(account.getBalance());
+			myTransaction.setDescription("Deposit");
+			
+			Date date = new java.sql.Date(System.currentTimeMillis());
+			myTransaction.setTransactionDate(date);
 			
 			myTransaction.setTransactionType("Deposit");
 			

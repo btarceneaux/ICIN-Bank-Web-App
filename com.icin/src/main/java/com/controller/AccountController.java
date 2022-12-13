@@ -25,11 +25,9 @@ public class AccountController
 	UserService userService;
 	
 	@PostMapping(value = "/checkingDeposit", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String depositMoneyToAccount(@RequestBody CheckingAccount myCheckingAccount)
+	public String depositMoneyToCheckingAccount(@RequestBody CheckingAccount myCheckingAccount)
 	{
-		System.out.println("Depositing money into checking");
 		String result;
-		System.out.println("The amount being deposited is " + myCheckingAccount.getBalance());
 		float amt = service.depositIntoChecking(myCheckingAccount);
 		
 		System.out.println("The amount being deposited is " + amt);
@@ -46,12 +44,32 @@ public class AccountController
 		return result; 
 	}
 	
-	@PostMapping(value = "/savingsDeposit", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String depositMoneyToAccount(@RequestBody SavingsAccount mySavingsAccount)
+	@PostMapping(value = "/checkingWithdrawal", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String withdrawMoneyFromChecking(@RequestBody CheckingAccount myCheckingAccount)
 	{
-		System.out.println("Depositing money into checking");
 		String result;
-		System.out.println("The amount being deposited is " + mySavingsAccount.getBalance());
+		
+		float amt = service.withdrawFromChecking(myCheckingAccount);
+		
+		System.out.println("The amount being withdrawn from the account is " + amt);
+		
+		if(amt > 0)
+		{
+			result = "Successful";
+		}
+		else
+		{
+			result = "Unsuccessful";
+		}
+		
+		return result; 
+	}
+	
+	@PostMapping(value = "/savingsDeposit", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String depositMoneyToSavingsAccount(@RequestBody SavingsAccount mySavingsAccount)
+	{
+		String result;
+		
 		float amt = service.depositIntoSavings(mySavingsAccount);
 		
 		System.out.println("The amount being deposited is " + amt);
@@ -67,6 +85,28 @@ public class AccountController
 		
 		return result; 
 	}
+	
+	@PostMapping(value = "/savingsWithdrawal", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String withdrawMoneyFromSavingsAccount(@RequestBody SavingsAccount mySavingsAccount)
+	{
+		String result;
+		
+		float amt = service.withdrawFromSavings(mySavingsAccount);
+		
+		System.out.println("The amount being withdrawn from the account is " + amt);
+		
+		if(amt > 0)
+		{
+			result = "Successful";
+		}
+		else
+		{
+			result = "Unsuccessful";
+		}
+		
+		return result; 
+	}
+	
 	
 	@PostMapping(value = "/withdraw")
 	public String withdrawMoneyFromAccount(String accountType,float amountToWithdraw)
