@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bean.User;
 import com.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = {"http://localhost:4200/", "http://localhost:4201/"})
 //@CrossOrigin(origins = "*")
 @RestController
 public class UserController 
