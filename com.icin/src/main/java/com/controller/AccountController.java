@@ -14,7 +14,7 @@ import com.bean.User;
 import com.service.AccountService;
 import com.service.UserService;
 
-@CrossOrigin(origins = {"http://localhost:4200/", "http://localhost:4201/"})
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 public class AccountController 
 {
@@ -127,4 +127,5 @@ public class AccountController
 		User myUser = userService.getUserbyId(userId); 
 		return myUser.getMySavingAccount();
 	}
+	
 }

@@ -1,41 +1,19 @@
 package com.service;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.bean.Transaction;
+import com.repository.TransactionRepository;
 
 @Service
 public class TransactionService
 {
-	public int depositMoney(String accountType, float amountToDeposit)
-	{
-		int result = 0;
-		
-		if(accountType.equals("savings"))
-		{
-			//Insert code here to make the deposit for savings.
-			result = 1;
-		}
-		else
-		{
-			//Insert code her to make the deposit for checking
-		}
-		
-		return result;
-	}
+	@Autowired
+	TransactionRepository repository;
 	
-	public int withdrawMoney(String accountType, float amountToDeposit)
+	public List<Transaction> getTransactionsByAccountId(int accountId)
 	{
-		int result = 0;
-		
-		if(accountType.equals("savings"))
-		{
-			//Insert code here to make the deposit for savings.
-			result = 1;
-		}
-		else
-		{
-			//Insert code her to make the deposit for checking
-		}
-		
-		return result;
+		return repository.findByAccountId(accountId);
 	}
 }

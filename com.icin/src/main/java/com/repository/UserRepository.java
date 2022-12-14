@@ -9,6 +9,5 @@ import com.bean.User;
 public interface UserRepository extends JpaRepository<User, Integer> 
 {
 	List<User> findByEmailAddress(String emailAddress);
-	
 	List<User> findByEmailAddressAndPassword(String email, String password);
 }
