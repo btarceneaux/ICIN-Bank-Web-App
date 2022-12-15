@@ -193,7 +193,7 @@ public class AccountService
 			Transaction myTransaction = new Transaction();
 			myTransaction.setAccountId(account.getId());
 			myTransaction.setAmount(account.getBalance());
-			myTransaction.setDescription("Deposit");
+			myTransaction.setDescription("Withdrawal");
 					
 			Date date = new java.sql.Date(System.currentTimeMillis());
 			myTransaction.setTransactionDate(date);
@@ -234,12 +234,12 @@ public class AccountService
 			Transaction myTransaction = new Transaction();
 			myTransaction.setAccountId(account.getId());
 			myTransaction.setAmount(account.getBalance());
-			myTransaction.setDescription("Deposit");
+			myTransaction.setDescription("Withdrawal");
 			
 			Date date = new java.sql.Date(System.currentTimeMillis());
 			myTransaction.setTransactionDate(date);
 			
-			myTransaction.setTransactionType("Deposit");
+			myTransaction.setTransactionType("Withdrawal");
 			
 			mySavingsAccount.getMyTransaction().add(myTransaction);
 			

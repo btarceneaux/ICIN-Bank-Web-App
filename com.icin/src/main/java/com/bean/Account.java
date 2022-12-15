@@ -24,6 +24,7 @@ public abstract class Account
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private float balance;
+	private boolean checkbookRequested = false;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Transaction> myTransaction = new ArrayList<>();
 	
@@ -54,6 +55,15 @@ public abstract class Account
 
 	public void setMyTransaction(List<Transaction> myTransaction) {
 		this.myTransaction = myTransaction;
+	}
+
+	
+	public boolean isCheckbookRequested() {
+		return checkbookRequested;
+	}
+
+	public void setCheckbookRequested(boolean checkbookRequested) {
+		this.checkbookRequested = checkbookRequested;
 	}
 
 	@Override
