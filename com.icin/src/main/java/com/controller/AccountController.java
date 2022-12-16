@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +25,42 @@ public class AccountController
 	
 	@Autowired
 	UserService userService;
+	
+	@PostMapping(value = "/requestSavingsCheckbook", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String requestSavingsAccountCheckbook(@RequestBody SavingsAccount mySavingsAccount)
+	{
+		String result;
+		int requested = service.requestSavingsCheckbook(mySavingsAccount);
+		
+			if(requested == 1)
+			{
+				result = "Successful";
+			}
+			else
+			{
+				result = "Unsuccessful";
+			}
+			
+			return result;
+	}
+	
+	@PostMapping(value = "/requestCheckingCheckbook", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String requestCheckingAccountCheckbook(@RequestBody CheckingAccount myCheckingAccount)
+	{
+		String result;
+		int requested = service.requestCheckingAccountCheckbook(myCheckingAccount);
+		
+			if(requested == 1)
+			{
+				result = "Successful";
+			}
+			else
+			{
+				result = "Unsuccessful";
+			}
+			
+			return result;
+	}
 	
 	@PostMapping(value = "/checkingDeposit", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String depositMoneyToCheckingAccount(@RequestBody CheckingAccount myCheckingAccount)
@@ -126,6 +164,22 @@ public class AccountController
 	{
 		User myUser = userService.getUserbyId(userId); 
 		return myUser.getMySavingAccount();
+	}
+	
+	@GetMapping(value = "/getSavingsAccountCheckbookRequests", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<SavingsAccount> getSavingsAccountsWhereCheckbookWasRequested()
+	{
+		List<SavingsAccount> mySavingsAccountList = service.getRequestedSavingsAccountByCheckbookRequest();
+		
+		return mySavingsAccountList;
+	}
+	
+	@GetMapping(value = "/getCheckingAccountCheckbookRequests", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<CheckingAccount> getCheckingAccountsWhereCheckbookWasRequested()
+	{
+		List<CheckingAccount> myCheckingAccountList = service.getRequestedCheckingAccountByCheckbookRequest();
+		
+		return myCheckingAccountList;
 	}
 	
 }

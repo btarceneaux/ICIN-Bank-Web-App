@@ -21,6 +21,58 @@ public class AccountService
 	@Autowired
 	SavingsAccountRepository savingsRepository;
 	
+	public List<SavingsAccount> getRequestedSavingsAccountByCheckbookRequest()
+	{
+		List<SavingsAccount> accountList = savingsRepository.findByCheckbookRequested(true);
+		
+		return accountList;
+	}
+	
+	public List<CheckingAccount> getRequestedCheckingAccountByCheckbookRequest()
+	{
+		List<CheckingAccount> accountList = checkingRepository.findByCheckbookRequested(true);
+		
+		return accountList;
+	}
+	
+	public int requestCheckingAccountCheckbook(CheckingAccount account)
+	{
+		int result = 0;
+		CheckingAccount myCheckingAccount = new CheckingAccount();
+		
+		Optional<Account> tmpAccount = checkingRepository.findById(account.getId());
+		if(tmpAccount.isPresent())
+		{
+			myCheckingAccount = (CheckingAccount) tmpAccount.get();
+			myCheckingAccount.setCheckbookRequested(true);
+			
+			checkingRepository.save(myCheckingAccount);
+			
+			result = 1;
+		}
+		
+		return result;
+	}
+	
+	public int requestSavingsCheckbook(SavingsAccount account)
+	{
+		int result = 0;
+		SavingsAccount mySavingsAccount = new SavingsAccount();
+		
+		Optional<Account> tmpAccount = savingsRepository.findById(account.getId());
+		if(tmpAccount.isPresent())
+		{
+			mySavingsAccount = (SavingsAccount) tmpAccount.get();
+			mySavingsAccount.setCheckbookRequested(true);
+			
+			savingsRepository.save(mySavingsAccount);
+			
+			result = 1;
+		}
+		
+		return result;
+	}
+	
 	public int createCheckingAccount(CheckingAccount account)
 	{	
 		int result = 0;
