@@ -26,6 +26,42 @@ public class AccountController
 	@Autowired
 	UserService userService;
 	
+	@PostMapping(value = "/approveCheckingCheckbookRequest", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String approveCheckbookRequest(@RequestBody CheckingAccount myCheckingAccount)
+	{
+		String result;
+		int requested = service.approveCheckingCheckbookRequest(myCheckingAccount);
+		
+		if(requested == 1)
+		{
+			result = "Successful";
+		}
+		else
+		{
+			result = "Unsuccessful";
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value = "/approveSavingsCheckbookRequest", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String approveCheckbookRequest(@RequestBody SavingsAccount mySavingsAccount)
+	{
+		String result;
+		int requested = service.approveSavingsCheckbookRequest(mySavingsAccount);
+		
+		if(requested == 1)
+		{
+			result = "Successful";
+		}
+		else
+		{
+			result = "Unsuccessful";
+		}
+		
+		return result;
+	}
+	
 	@PostMapping(value = "/requestSavingsCheckbook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String requestSavingsAccountCheckbook(@RequestBody SavingsAccount mySavingsAccount)
 	{
@@ -41,6 +77,7 @@ public class AccountController
 				result = "Unsuccessful";
 			}
 			
+			
 			return result;
 	}
 	
@@ -48,6 +85,9 @@ public class AccountController
 	public String requestCheckingAccountCheckbook(@RequestBody CheckingAccount myCheckingAccount)
 	{
 		String result;
+		System.out.println("In requestCheckingCheckbook");
+		myCheckingAccount.setCheckbookRequested(true);
+		
 		int requested = service.requestCheckingAccountCheckbook(myCheckingAccount);
 		
 			if(requested == 1)
@@ -163,6 +203,9 @@ public class AccountController
 	public SavingsAccount getSavingsAccountByUser(@PathVariable("userId") int userId)
 	{
 		User myUser = userService.getUserbyId(userId); 
+		
+		System.out.println("User being passed in is " + myUser);
+		
 		return myUser.getMySavingAccount();
 	}
 	

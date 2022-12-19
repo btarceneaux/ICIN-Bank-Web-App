@@ -22,7 +22,7 @@ public class User
 	@OneToOne (cascade = CascadeType.ALL)
 	private CheckingAccount myCheckingAccount = new CheckingAccount();
 	@OneToOne (cascade = CascadeType.ALL)
-	private SavingsAccount mySavingAccount = new SavingsAccount();
+	private SavingsAccount mySavingsAccount = new SavingsAccount();
 	
 	private boolean activated;
 	
@@ -88,11 +88,11 @@ public class User
 	}
 
 	public SavingsAccount getMySavingAccount() {
-		return mySavingAccount;
+		return mySavingsAccount;
 	}
 
 	public void setMySavingAccount(SavingsAccount mySavingAccount) {
-		this.mySavingAccount = mySavingAccount;
+		this.mySavingsAccount = mySavingAccount;
 	}
 
 	public boolean isActivated() {
@@ -107,7 +107,7 @@ public class User
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
 				+ phoneNumber + ", emailAddress=" + emailAddress + ", password=" + password + ", myCheckingAccount="
-				+ myCheckingAccount + ", mySavingAccount=" + mySavingAccount + ", activated=" + activated + "]";
+				+ myCheckingAccount + ", mySavingsAccount=" + mySavingsAccount + ", activated=" + activated + "]";
 	}
 
 }

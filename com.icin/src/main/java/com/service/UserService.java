@@ -1,12 +1,17 @@
 package com.service;
 
 import java.util.List;
-
+import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.bean.Account;
+import com.bean.CheckingAccount;
+import com.bean.SavingsAccount;
 import com.bean.User;
+import com.repository.AccountRepository;
+import com.repository.CheckingAccountRepository;
+import com.repository.SavingsAccountRepository;
 import com.repository.UserRepository;
 
 @Service
@@ -14,6 +19,12 @@ public class UserService
 {
 	@Autowired
 	UserRepository repository;
+	
+	@Autowired
+	SavingsAccountRepository sacRepository;
+	
+	@Autowired
+	CheckingAccountRepository cacRepository;
 	
 	public List<User> getAllUsers()
 	{
@@ -66,5 +77,35 @@ public class UserService
 		}
 		
 		return result;
+	}
+	
+	public User findUserByCheckingAccount(int id)
+	{
+		CheckingAccount myFoundCheckingAccount = new CheckingAccount();
+		
+		Optional<Account> tmpCheckingAccount = cacRepository.findById(id);
+		if(tmpCheckingAccount.isPresent())
+		{
+			myFoundCheckingAccount = (CheckingAccount) tmpCheckingAccount.get();
+		}
+		
+		User myUser = repository.findUserByMyCheckingAccount(myFoundCheckingAccount);
+		
+		return myUser;
+	}
+	
+	public User findUserBySavingsAccount(int id)
+	{
+		SavingsAccount myFoundSavingsAccount = new SavingsAccount();
+		
+		Optional<Account> tmpSavingsAccount = sacRepository.findById(id);
+		if(tmpSavingsAccount.isPresent())
+		{
+			myFoundSavingsAccount = (SavingsAccount) tmpSavingsAccount.get();
+		}
+		
+		User myUser = repository.findUserByMySavingsAccount(myFoundSavingsAccount);
+		
+		return myUser;
 	}
 }

@@ -21,6 +21,46 @@ public class AccountService
 	@Autowired
 	SavingsAccountRepository savingsRepository;
 	
+	public int approveCheckingCheckbookRequest(CheckingAccount account)
+	{
+		int result = 0;
+		CheckingAccount myCheckingAccount = new CheckingAccount();
+		Optional<Account> tmpAccount = checkingRepository.findById(account.getId());
+		
+		if(tmpAccount.isPresent())
+		{
+			myCheckingAccount = (CheckingAccount) tmpAccount.get();
+			myCheckingAccount.setCheckbookRequestApproved(true);
+			
+			checkingRepository.save(myCheckingAccount);
+			
+			result = 1;
+		}
+		
+		return result;
+		
+	}
+	
+	public int approveSavingsCheckbookRequest(SavingsAccount account)
+	{
+		int result = 0;
+		SavingsAccount mySavingsAccount = new SavingsAccount();
+		Optional<Account> tmpAccount = savingsRepository.findById(account.getId());
+		
+		if(tmpAccount.isPresent())
+		{
+			mySavingsAccount = (SavingsAccount) tmpAccount.get();
+			mySavingsAccount.setCheckbookRequestApproved(true);
+			
+			savingsRepository.save(mySavingsAccount);
+			
+			result = 1;
+		}
+		
+		return result;
+		
+	}
+	
 	public List<SavingsAccount> getRequestedSavingsAccountByCheckbookRequest()
 	{
 		List<SavingsAccount> accountList = savingsRepository.findByCheckbookRequested(true);
@@ -40,9 +80,11 @@ public class AccountService
 		int result = 0;
 		CheckingAccount myCheckingAccount = new CheckingAccount();
 		
+		System.out.println("Requesting checking account number " + account.getId() + "from account service.");
 		Optional<Account> tmpAccount = checkingRepository.findById(account.getId());
 		if(tmpAccount.isPresent())
 		{
+			System.out.println("Inside the present block.");
 			myCheckingAccount = (CheckingAccount) tmpAccount.get();
 			myCheckingAccount.setCheckbookRequested(true);
 			

@@ -25,6 +25,7 @@ public abstract class Account
 	private int id;
 	private float balance;
 	private boolean checkbookRequested = false;
+	private boolean checkbookRequestApproved = false;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Transaction> myTransaction = new ArrayList<>();
 	
@@ -66,10 +67,17 @@ public abstract class Account
 		this.checkbookRequested = checkbookRequested;
 	}
 
-	@Override
-	public String toString() {
-		return "Account [id=" + id + ", balance=" + balance + ", myTransaction=" + myTransaction + "]";
+	public boolean isCheckbookRequestApproved() {
+		return checkbookRequestApproved;
 	}
 
-	
+	public void setCheckbookRequestApproved(boolean checkbookRequestApproved) {
+		this.checkbookRequestApproved = checkbookRequestApproved;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", balance=" + balance + ", checkbookRequested=" + checkbookRequested
+				+ ", checkbookRequestApproved=" + checkbookRequestApproved + ", myTransaction=" + myTransaction + "]";
+	}
 }
