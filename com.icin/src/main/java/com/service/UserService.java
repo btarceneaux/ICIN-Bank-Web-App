@@ -148,4 +148,17 @@ public class UserService
 		
 		return myUser;
 	}
+	
+	public User findUserByEmailAddress(String email)
+	{
+		List<User> myList = repository.findByEmailAddress(email);
+		User myUser = new User();
+		
+		if(myList.size() > 0)
+		{
+			myUser = myList.get(0);
+		}
+		
+		return myUser;
+	}
 }

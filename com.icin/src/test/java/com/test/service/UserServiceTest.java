@@ -23,53 +23,61 @@ class UserServiceTest
 	@Autowired
 	UserService service;
 	
-//	@Test
-//	@Order(1)
-//	public void createUserTest()
-//	{
-//		User testUser = new User();
-//		testUser.setEmailAddress("test@test.com");
-//		testUser.setFirstName("Test");
-//		testUser.setLastName("User");
-//		testUser.setPassword("testing123");
-//		testUser.setPhoneNumber("1111111111");
-//		
-//		int result = service.registerUser(testUser);
-//		
-//		assertEquals(1, result);
-//	}
-	
 	@Test
 	@Order(1)
-	public void loginTest()
+	public void createUserTest()
 	{
-		int result = service.loginUser("sarah.mcniel@yahoo.com", "123456");
-		assertEquals(1, result);
+		User testUser = new User();
+		testUser.setEmailAddress("test@test.com");
+		testUser.setFirstName("Test");
+		testUser.setLastName("User");
+		testUser.setPassword("testing123");
+		testUser.setPhoneNumber("1111111111");
+		
+		User tempUser = service.registerUser(testUser);
+		
+		assertEquals("test@test.com",tempUser.getEmailAddress());
 	}
 	
 	@Test
 	@Order(2)
+	public void loginTest()
+	{
+		int result = service.loginUser("sarah.mcniel@yahoo.com", "12345");
+		assertEquals(1, result);
+	}
+	
+	@Test
+	@Order(3)
 	public void getAllUsers()
 	{
 		List<User> allUsers = service.getAllUsers();
-		assertEquals(1, allUsers.size());
+		assertNotEquals(0, allUsers.size());
 	}
 	
-//	@Test
-//	@Order(3)
-//	public void deleteUserTest()
-//	{
-//		User testUser = new User();
-//		testUser.setEmailAddress("test@test.com");
-//		testUser.setFirstName("Test");
-//		testUser.setLastName("User");
-//		testUser.setPassword("testing123");
-//		testUser.setPhoneNumber("1111111111");
-//		
-//		int result = service.deleteUser(testUser);
-//		
-//		assertEquals(1, result);
-//	}
+	@Test
+	@Order(4)
+	public void activateOrDeactivateUser()
+	{
+		User myUser = service.findUserByEmailAddress("test@test.com");
+		boolean activated = myUser.isActivated();
+		int result = service.activateOrDeactivateUser(myUser.getUserId());
+		User newUser = service.findUserByEmailAddress("test@test.com");
+		
+		assertEquals(1, result);
+		assertNotEquals(activated, newUser.isActivated());
+	}
+	
+	@Test
+	@Order(5)
+	public void deleteUserTest()
+	{
+		User myUser = service.findUserByEmailAddress("test@test.com");
+		
+		int result = service.deleteUser(myUser);
+		
+		assertEquals(1, result);
+	}
 	
 	
 
