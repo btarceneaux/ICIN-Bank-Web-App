@@ -14,7 +14,6 @@ import com.service.AccountService;
 import com.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200/")
-//@CrossOrigin(origins = "*")
 @RestController
 public class UserController 
 {
@@ -24,6 +23,24 @@ public class UserController
 	@Autowired
 	AccountService accountService;
 	
+	@PostMapping(value = "/activateOrDeactivateUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String activateDeactivateUser(@RequestBody User myUser)
+	{
+		System.out.println("The id being passed from the path variable is " + myUser.getUserId());
+		String myResult;
+		int result = service.activateOrDeactivateUser(myUser.getUserId());
+		
+		if(result == 1)
+		{
+			myResult = "Successful";
+		}
+		else
+		{
+			myResult = "Unsuccessful";
+		}
+		
+		return myResult;
+	}
 	
 	@PostMapping(value = "/storeUser", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String registerUser(@RequestBody User myUser)
@@ -53,6 +70,8 @@ public class UserController
 	@PostMapping(value = "/loginUser", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public int loginUser(@RequestBody User myUser)
 	{
+		System.out.println("User coming over is " + myUser);
+		
 		int result = service.loginUser(myUser.getEmailAddress(), myUser.getPassword());
 		
 		return result;

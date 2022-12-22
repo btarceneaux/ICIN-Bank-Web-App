@@ -2,14 +2,12 @@ package com.service;
 
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bean.Account;
 import com.bean.CheckingAccount;
 import com.bean.SavingsAccount;
 import com.bean.User;
-import com.repository.AccountRepository;
 import com.repository.CheckingAccountRepository;
 import com.repository.SavingsAccountRepository;
 import com.repository.UserRepository;
@@ -26,6 +24,32 @@ public class UserService
 	@Autowired
 	CheckingAccountRepository cacRepository;
 	
+	public int activateOrDeactivateUser(int userId)
+	{
+		Optional<User> myUserList = repository.findById(userId);
+		int result = 0;
+		
+		if(myUserList.isPresent())
+		{
+			User myUser = myUserList.get();
+			
+			if(myUser.isActivated() == false)
+			{
+				myUser.setActivated(true);
+			}
+			else 
+			{
+				myUser.setActivated(false);
+			}
+			
+			repository.save(myUser);
+			
+			result = 1;
+		}
+		
+		return result;
+	}
+	
 	public List<User> getAllUsers()
 	{
 		return repository.findAll();
@@ -33,12 +57,13 @@ public class UserService
 	
 	public User registerUser(User incomingUser)
 	{	
-		//First see if the email address exists.
-		if (repository.findByEmailAddress(incomingUser.getEmailAddress()).size() == 0)
+		List<User> myList = repository.findByEmailAddress(incomingUser.getPassword());
+		
+		if (myList.size() == 0)
 		{
-			User tempUser = repository.save(incomingUser);
+			User tmpUser = repository.save(incomingUser);
 			
-			return tempUser;
+			return tmpUser;
 		}
 		
 		return null;
@@ -46,31 +71,46 @@ public class UserService
 	
 	public int loginUser(String emailAddress, String password)
 	{
+		System.out.println("Email address coming over is " + emailAddress);
+		
 		int result = 0;
 		
-		List<User> userList = repository.findByEmailAddressAndPassword(emailAddress, password);
+		List<User> myList = repository.findByEmailAddress(emailAddress);
+		System.out.println("The list size is " + myList.size());
 		
-		
-		//Let's return the ID of the user instead
-		if(userList.size() > 0)
+		if(myList.size() > 0)
 		{
-			User myUser = userList.get(0);
-			result = myUser.getUserId();
+			User tmpUser = myList.get(0);
+			if(tmpUser.getPassword().equals(password))
+			{
+				result = tmpUser.getUserId();
+			}
 		}
+		
 		
 		return result;
 	}
 	
 	public User getUserbyId(int id)
 	{
-		return repository.findById(id).orElseThrow(()-> new EntityNotFoundException("User with id " + id + " was not found!"));
+		Optional<User> tmpUser = repository.findById(id);
+		User myUser = new User();
+		
+		if(tmpUser.isPresent())
+		{
+			myUser = tmpUser.get();
+		}
+		
+		return myUser;
 	}
 	
 	public int deleteUser(User incomingUser)
 	{
+		List<User> myList = repository.findByEmailAddress(incomingUser.getEmailAddress());
+		
 		int result = 0;
 		//First check to see if the user is in the database.
-		if(repository.findByEmailAddress(incomingUser.getEmailAddress()).size() == 1)
+		if(myList.size() > 0)
 		{
 			repository.delete(incomingUser);
 			result = 1;

@@ -24,7 +24,7 @@ public class User
 	@OneToOne (cascade = CascadeType.ALL)
 	private SavingsAccount mySavingsAccount = new SavingsAccount();
 	
-	private boolean activated;
+	private boolean activated = false;
 	
 	public User() 
 	{
