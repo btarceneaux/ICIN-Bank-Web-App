@@ -29,9 +29,9 @@ class UserServiceTest
 	{
 		User testUser = new User();
 		testUser.setEmailAddress("test@test.com");
+		testUser.setPassword("12345");
 		testUser.setFirstName("Test");
 		testUser.setLastName("User");
-		testUser.setPassword("testing123");
 		testUser.setPhoneNumber("1111111111");
 		
 		User tempUser = service.registerUser(testUser);
@@ -43,8 +43,8 @@ class UserServiceTest
 	@Order(2)
 	public void loginTest()
 	{
-		int result = service.loginUser("sarah.mcniel@yahoo.com", "12345");
-		assertEquals(1, result);
+		int result = service.loginUser("test@test.com", "12345");
+		assertNotEquals(0, result);
 	}
 	
 	@Test
@@ -68,6 +68,8 @@ class UserServiceTest
 		assertNotEquals(activated, newUser.isActivated());
 	}
 	
+	
+	
 	@Test
 	@Order(5)
 	public void deleteUserTest()
@@ -78,7 +80,5 @@ class UserServiceTest
 		
 		assertEquals(1, result);
 	}
-	
-	
 
 }
