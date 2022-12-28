@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bean.Transaction;
 import com.service.TransactionService;
 
-@CrossOrigin(origins = "{\"http://localhost:4200/\", \"http://localhost/\"}")
+@CrossOrigin(origins = {"http://localhost:4200/", "http://localhost/", "http://localhost:80/"})
 @RestController
 public class TransactionController 
 {
