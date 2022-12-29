@@ -13,7 +13,7 @@ import com.bean.User;
 import com.service.AccountService;
 import com.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 @RestController
 public class UserController 
 {
