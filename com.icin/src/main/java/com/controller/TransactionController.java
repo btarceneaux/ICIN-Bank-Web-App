@@ -11,7 +11,7 @@ import com.bean.Transaction;
 import com.service.TransactionService;
 
 //@CrossOrigin(origins = {"http://localhost:4200/", "http://localhost/", "http://localhost:80/"})
-@CrossOrigin(origins = "http://ec2-35-89-254-103.us-west-2.compute.amazonaws.com")
+@CrossOrigin(origins = "http://icin-bank-frontend.s3-website-us-west-2.amazonaws.com/")
 @RestController
 public class TransactionController 
 {
